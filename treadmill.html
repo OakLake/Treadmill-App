@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treadmill Controller</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="font-mono justify-center bg-gray-300">
+    <div x-data="treadmillController()" class="p-20 justify-center">
+      <h2 class="font-bold p-5 text-center">Treadmill Controller</h2>
+      <h1 class="mt-5 text-center">Live Data</h1>
+      <div class="p-3 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Speed: <span x-text="speed"></span> m/s</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Distance: <span x-text="distance"></span> m</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Time: <span x-text="time"></span> s</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Calories: <span x-text="calories"></span></p>
+      </div>
+      <div class="p-3 text-center">
+        <h1 class="p-3 text-center">Workout</h1>
+        <button @click="startWorkout" class="p-3 bg-green-600 text-bold rounded-md">Start</button>
+        <button @click="stopWorkout" class="p-3 bg-red-600 text-bold rounded-md">Stop</button>
+      </div>
+
+      <div class="text-center">
+        <h1 class="p-3">Speed</h1>
+        <button @click="increaseSpeed" class="py-3 px-5 bg-green-600 text-bold rounded-md">+</button>
+        <button @click="decreaseSpeed" class="py-3 px-5 bg-red-600 text-bold rounded-md">-</button>
+      </div>
+
+      <div class="p-3 text-center">
+        <h2 class="p-3">Select a Workout</h2>
+        <select x-model="selectedWorkout" @change="updateWorkoutPlan">
+          <template x-for="(workout, index) in workouts" :key="index">
+            <option :value="index" x-text="workout.name"></option>
+          </template>
+        </select>
+        <h2 class="p-3 text-center">Workout Plan</h2>
+        <ul class="text-left px-30">
+          <template x-for="(segment, index) in selectedWorkoutData" :key="index">
+            <li>Speed: <span x-text="segment[0]"></span> m/s, Duration: <span x-text="segment[1]"></span> sec</li>
+          </template>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      function treadmillController() {
+        return {
+          distance: 0,
+          time: 0,
+          calories: 0,
+          speed: 0,
+          workouts: [
+            {
+              name: "Beginner Walk",
+              plan: [
+                [1.5, 300],
+                [2, 300],
+                [2.5, 300],
+              ],
+            },
+            {
+              name: "Intermediate Jog",
+              plan: [
+                [3, 300],
+                [4, 300],
+                [5, 300],
+              ],
+            },
+            {
+              name: "Advanced Run",
+              plan: [
+                [6, 300],
+                [8, 300],
+                [10, 300],
+              ],
+            },
+          ],
+          selectedWorkout: 0,
+          selectedWorkoutData: [],
+          ws: null,
+
+          init() {
+            this.ws = new WebSocket("ws://localhost:8000/ws"); // Adjust for your server
+            this.ws.onmessage = (event) => {
+              let data = JSON.parse(event.data);
+              this.distance = data.distance;
+              this.time = data.time;
+              this.calories = data.calories;
+              this.speed = data.speed;
+            };
+          },
+
+          updateWorkoutPlan() {
+            this.selectedWorkoutData = this.workouts[this.selectedWorkout].plan;
+          },
+
+          startWorkout() {
+            fetch("http://localhost:8000/start", { method: "POST" });
+          },
+
+          stopWorkout() {
+            fetch("http://localhost:8000/stop", { method: "POST" });
+          },
+
+          increaseSpeed() {
+            fetch("http://localhost:8000/speed/increase", { method: "POST" });
+          },
+
+          decreaseSpeed() {
+            fetch("http://localhost:8000/speed/decrease", { method: "POST" });
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

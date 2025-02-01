@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "pretty": "prettier . --write --print-width 120",
+    "start": "live-server ."
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "prettier": "^3.4.2"
+  }
+}
