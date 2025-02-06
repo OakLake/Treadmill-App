@@ -6,22 +6,27 @@
     <title>Treadmill Controller</title>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
   </head>
   <body class="font-mono justify-center bg-gray-300">
     <div x-data="treadmillController()" class="p-20 justify-center">
       <h2 class="font-bold p-5 text-center">Treadmill Controller</h2>
       <h1 class="mt-5 text-center">Live Data</h1>
-      <div class="p-3 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Speed: <span x-text="speed"></span> m/s</p>
-        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Distance: <span x-text="distance"></span> m</p>
-        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Time: <span x-text="time"></span> s</p>
-        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Calories: <span x-text="calories"></span></p>
+      <div class="p-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Speed (m/s)</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Distance (m)</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Time (s)</p>
+        <p class="p-3 bg-gray-400 text-bold rounded-md p-5">Calories</p>
+        <p class="p-3 bg-gray-200 text-bold rounded-md p-5"><span x-text="data.speed"></span></p>
+        <p class="p-3 bg-gray-200 text-bold rounded-md p-5"><span x-text="data.distance"></span></p>
+        <p class="p-3 bg-gray-200 text-bold rounded-md p-5"><span x-text="data.time"></span></p>
+        <p class="p-3 bg-gray-200 text-bold rounded-md p-5"><span x-text="data.calories"></span></p>
       </div>
       <div class="p-3 text-center">
         <h1 class="p-3 text-center">Workout</h1>
-        <button @click="startWorkout" class="p-3 bg-green-600 text-bold rounded-md">Start</button>
-        <button @click="stopWorkout" class="p-3 bg-red-600 text-bold rounded-md">Stop</button>
+        <button @click="startTreadmill" class="p-3 bg-green-600 text-bold rounded-md">Start</button>
+        <button @click="pauseTreadmill" class="p-3 bg-yellow-600 text-bold rounded-md">Pause</button>
+        <button @click="stopTreadmill" class="p-3 bg-red-600 text-bold rounded-md">Stop</button>
       </div>
 
       <div class="text-center">
@@ -49,48 +54,27 @@
     <script>
       function treadmillController() {
         return {
-          distance: 0,
-          time: 0,
-          calories: 0,
-          speed: 0,
-          workouts: [
-            {
-              name: "Beginner Walk",
-              plan: [
-                [1.5, 300],
-                [2, 300],
-                [2.5, 300],
-              ],
-            },
-            {
-              name: "Intermediate Jog",
-              plan: [
-                [3, 300],
-                [4, 300],
-                [5, 300],
-              ],
-            },
-            {
-              name: "Advanced Run",
-              plan: [
-                [6, 300],
-                [8, 300],
-                [10, 300],
-              ],
-            },
-          ],
+          data: { speed: "N/A", distance: "N/A", calories: "N/A", time: "N/A" },
+          workouts: [],
           selectedWorkout: 0,
           selectedWorkoutData: [],
           ws: null,
 
           init() {
+            fetch("http://localhost:8000/workouts")
+              .then((response) => response.json())
+              .then((data) => {
+                this.workouts = data;
+              })
+              .catch((error) => console.error("Error fetching workouts:", error));
+
             this.ws = new WebSocket("ws://localhost:8000/ws"); // Adjust for your server
             this.ws.onmessage = (event) => {
-              let data = JSON.parse(event.data);
-              this.distance = data.distance;
-              this.time = data.time;
-              this.calories = data.calories;
-              this.speed = data.speed;
+              let newData = JSON.parse(event.data);
+              this.data.speed = newData.speed_ms;
+              this.data.time = newData.time;
+              this.data.distance = newData.distance_m;
+              this.data.calories = newData.calories;
             };
           },
 
@@ -98,11 +82,23 @@
             this.selectedWorkoutData = this.workouts[this.selectedWorkout].plan;
           },
 
-          startWorkout() {
+          startTreadmill() {
             fetch("http://localhost:8000/start", { method: "POST" });
           },
 
-          stopWorkout() {
+          startWorkout() {
+            fetch("http://localhost:8000/start/workout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json",
+              body: { workout: this.selectedWorkout.name } },
+            });
+          },
+
+          pauseTreadmill() {
+            fetch("http://localhost:8000/pause", { method: "POST" });
+          },
+
+          stopTreadmill() {
             fetch("http://localhost:8000/stop", { method: "POST" });
           },
 
