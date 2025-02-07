@@ -23,7 +23,7 @@
         <p class="p-3 bg-gray-200 text-bold rounded-md p-5"><span x-text="data.calories"></span></p>
       </div>
       <div class="p-3 text-center">
-        <h1 class="p-3 text-center">Workout</h1>
+        <h1 class="p-3 text-center">Control</h1>
         <button @click="startTreadmill" class="p-3 bg-green-600 text-bold rounded-md">Start</button>
         <button @click="pauseTreadmill" class="p-3 bg-yellow-600 text-bold rounded-md">Pause</button>
         <button @click="stopTreadmill" class="p-3 bg-red-600 text-bold rounded-md">Stop</button>
@@ -89,8 +89,7 @@
           startWorkout() {
             fetch("http://localhost:8000/start/workout", {
               method: "POST",
-              headers: { "Content-Type": "application/json",
-              body: { workout: this.selectedWorkout.name } },
+              headers: { "Content-Type": "application/json", body: { workout: this.selectedWorkout.name } },
             });
           },
 
@@ -103,11 +102,17 @@
           },
 
           increaseSpeed() {
-            fetch("http://localhost:8000/speed/increase", { method: "POST" });
+            fetch("http://localhost:8000/speed", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", body: { value: this.speed + 0.1 } },
+            });
           },
 
           decreaseSpeed() {
-            fetch("http://localhost:8000/speed/decrease", { method: "POST" });
+            fetch("http://localhost:8000/speed", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", body: { value: this.speed - 0.1 } },
+            });
           },
         };
       }
