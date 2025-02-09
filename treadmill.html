@@ -7,17 +7,17 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="font-mono justify-center bg-gray-300">
-    <div x-data="treadmillController()" class="p-20 justify-center">
-      <h2 class="font-bold p-5 text-center">Treadmill Controller</h2>
+  <body class="font-mono justify-center bg-black">
+    <div x-data="treadmillController()" class="p-20 justify-center text-white">
+      <h2 class="font-extrabold text-2xl uppercase p-5 text-center">Treadmill Controller</h2>
       <!-- LIVE DATA SECTION -->
       <h1 class="mt-5 text-center">Live Data</h1>
       <div class="p-2 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
-        <p class="bg-gray-400 text-bold rounded-md p-4">Speed (km/h)<br /><span x-text="data.speed"></span></p>
-        <p class="bg-gray-400 text-bold rounded-md p-4">Distance (m)<br /><span x-text="data.distance"></span></p>
-        <p class="bg-gray-400 text-bold rounded-md p-4">Steps<br /><span x-text="data.steps"></span></p>
-        <p class="bg-gray-400 text-bold rounded-md p-4">Time<br /><span x-text="data.time"></span></p>
-        <p class="bg-gray-400 text-bold rounded-md p-4">Calories<br /><span x-text="data.calories"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">Speed (km/h)<br /><span x-text="data.speed"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">Distance (m)<br /><span x-text="data.distance"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">Steps<br /><span x-text="data.steps"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">Time<br /><span x-text="data.time"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">Calories<br /><span x-text="data.calories"></span></p>
       </div>
       <!-- LIVE DATA SECTION END-->
 
@@ -37,7 +37,7 @@
 
       <div class="p-3 text-center">
         <h2 class="p-3">Select a Workout</h2>
-        <select x-model="selectedWorkout" @change="updateWorkoutPlan">
+        <select class="bg-gray-600" x-model="selectedWorkout" @change="updateWorkoutPlan">
           <template x-for="(workout, index) in workouts" :key="index">
             <option :value="index" x-text="workout.name"></option>
           </template>
