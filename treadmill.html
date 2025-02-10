@@ -9,30 +9,64 @@
   </head>
   <body class="font-mono justify-center bg-black">
     <div x-data="treadmillController()" class="p-20 justify-center text-white">
-      <h2 class="font-extrabold text-2xl uppercase p-5 text-center">Treadmill Controller</h2>
+      <h2
+        class="bg-gradient-to-r from-green-500 to-red-500 bg-clip-text text-2xl font-extrabold text-transparent text-center"
+      >
+        Treadmill Controller 🏃
+      </h2>
       <!-- LIVE DATA SECTION -->
       <h1 class="mt-5 text-center">Live Data</h1>
       <div class="p-2 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
-        <p class="bg-gray-600 text-bold rounded-md p-4">Speed (km/h)<br /><span x-text="data.speed"></span></p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">Distance (m)<br /><span x-text="data.distance"></span></p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">Steps<br /><span x-text="data.steps"></span></p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">Time<br /><span x-text="data.time"></span></p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">Calories<br /><span x-text="data.calories"></span></p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Speed (km/h)<br /><span class="font-extrabold" x-text="data.speed"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Distance (m)<br /><span class="font-extrabold" x-text="data.distance"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Steps<br /><span class="font-extrabold" x-text="data.steps"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Time<br /><span class="font-extrabold" x-text="data.time"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Calories<br /><span class="font-extrabold" x-text="data.calories"></span>
+        </p>
       </div>
       <!-- LIVE DATA SECTION END-->
 
       <div class="p-3 text-center">
         <h1 class="p-3 text-center">Control</h1>
         <div class="p-2 grid md:grid-cols-1 lg:grid-cols-2 gap-2 text-center">
-          <button @click="startTreadmill" class="p-3 bg-green-600 active:bg-green-700 text-bold rounded-md">Start</button>
-          <button @click="stopTreadmill" class="p-3 bg-red-600 active:bg-red-700 text-bold rounded-md">Stop</button>
+          <button
+            @click="startTreadmill"
+            class="p-3 bg-gradient-to-r from-green-500 to-green-600 active:bg-green-700 text-bold rounded-md font-extrabold"
+          >
+            Start
+          </button>
+          <button
+            @click="stopTreadmill"
+            class="p-3 bg-gradient-to-r from-red-500 to-red-600 active:bg-red-700 text-bold rounded-md font-extrabold"
+          >
+            Stop
+          </button>
         </div>
       </div>
 
       <div class="text-center">
         <h1 class="p-3">Speed</h1>
-        <button @click="increaseSpeed" class="py-3 px-8 m-1 bg-green-600 active:bg-green-700 text-bold rounded-md">+</button>
-        <button @click="decreaseSpeed" class="py-3 px-8 m-1 bg-red-600 active:bg-red-700 text-bold rounded-md">-</button>
+        <button
+          @click="increaseSpeed"
+          class="py-3 px-8 m-1 bg-gradient-to-r from-green-500 to-green-600 active:bg-green-700 text-bold rounded-md font-extrabold"
+        >
+          +
+        </button>
+        <button
+          @click="decreaseSpeed"
+          class="py-3 px-8 m-1 bg-gradient-to-r from-red-500 to-red-600 active:bg-red-700 text-bold rounded-md font-extrabold"
+        >
+          -
+        </button>
       </div>
 
       <div class="p-3 text-center">
@@ -44,10 +78,15 @@
         </select>
 
         <div class="p-6">
-          <button @click="startWorkout" class="p-3 bg-green-600 active:bg-green-700 text-bold rounded-md">Start Workout</button>
+          <button
+            @click="startWorkout"
+            class="p-3 bg-gradient-to-r from-green-500 to-green-600 active:bg-green-700 text-bold rounded-md font-extrabold"
+          >
+            Start Workout
+          </button>
         </div>
 
-        <h2 class="p-3 text-center">Workout Plan</h2>
+        <h2 class="p-3 text-center" x-show="selectedWorkoutData.length">Workout Plan</h2>
         <ul class="text-left px-30">
           <template x-for="(segment, index) in selectedWorkoutData" :key="index">
             <li>Speed: <span x-text="segment[0]"></span> m/s, Duration: <span x-text="segment[1]"></span> sec</li>
@@ -59,7 +98,7 @@
     <script>
       function treadmillController() {
         return {
-          data: { speed: "N/A", distance: "N/A", steps: "N/A", calories: "N/A", time: "N/A" },
+          data: { speed: "-", distance: "-", steps: "-", calories: "-", time: "-" },
           workouts: [],
           selectedWorkout: 0,
           selectedWorkoutData: [],
