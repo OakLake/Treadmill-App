@@ -35,22 +35,22 @@
       </div>
       <!-- LIVE DATA SECTION END-->
 
-      <div class="p-3 text-center">
+      <div class="p-3 text-center content-center">
         <h1 class="p-3 text-center">Control</h1>
-        <div class="p-2 grid md:grid-cols-1 lg:grid-cols-2 gap-2 text-center">
-          <button
-            @click="startTreadmill"
-            class="p-3 bg-gradient-to-r from-green-500 to-green-600 active:bg-green-700 text-bold rounded-md font-extrabold"
-          >
-            Start
-          </button>
-          <button
-            @click="stopTreadmill"
-            class="p-3 bg-gradient-to-r from-red-500 to-red-600 active:bg-red-700 text-bold rounded-md font-extrabold"
-          >
-            Stop
-          </button>
-        </div>
+          <div class="place-items-center p-2 grid md:grid-cols-1 lg:grid-cols-2 gap-2 text-center">
+            <button
+              @click="startTreadmill"
+              class="md:min-w-80 p-3 bg-gradient-to-r from-green-500 to-green-600 active:bg-green-700 text-bold rounded-md font-extrabold"
+            >
+              Start
+            </button>
+            <button
+              @click="stopTreadmill"
+              class="md:min-w-80 p-3 bg-gradient-to-r from-red-500 to-red-600 active:bg-red-700 text-bold rounded-md font-extrabold"
+            >
+              Stop
+            </button>
+          </div>
       </div>
 
       <div class="text-center">
@@ -69,7 +69,7 @@
         </button>
       </div>
 
-      <div class="p-3 text-center">
+      <div class="p-3 text-center md:mt-20">
         <h2 class="p-3">Select a Workout</h2>
         <select class="bg-gray-600" x-model="selectedWorkout" @change="updateWorkoutPlan">
           <template x-for="(workout, index) in workouts" :key="index">
