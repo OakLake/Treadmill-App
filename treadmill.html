@@ -54,15 +54,23 @@
                     Start Workout
                 </button>
             </div>
-            <h2 class="text-xl font-bold mt-5" x-show="selectedWorkoutData.length">Workout Plan</h2>
-            <ul class="text-left px-10">
-                <template x-for="(segment, index) in selectedWorkoutData" :key="index">
-                    <li>
-                        Speed: <span x-text="segment[0]"></span> m/s, 
-                        Duration: <span x-text="segment[1] / 60"></span> mins
-                    </li>
-                </template>
-            </ul>
+            <h2 class="text-xl font-bold mt-5">Workout Plan</h2>
+            <table class="table-auto w-full border-collapse border border-gray-600 mt-4">
+              <thead>
+                  <tr class="bg-gray-700">
+                      <th class="border border-gray-600 px-4 py-2">Speed (m/s)</th>
+                      <th class="border border-gray-600 px-4 py-2">Duration (mins)</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <template x-for="(segment, index) in selectedWorkoutData" :key="index">
+                      <tr class="bg-gray-800">
+                          <td class="border border-gray-600 px-4 py-2" x-text="segment[0]"></td>
+                          <td class="border border-gray-600 px-4 py-2" x-text="segment[1] / 60"></td>
+                      </tr>
+                  </template>
+              </tbody>
+          </table>
         </section>
     </div>
 
