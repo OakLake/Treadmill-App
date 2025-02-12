@@ -10,35 +10,37 @@
   <body class="font-mono flex justify-center bg-black text-white">
     <div x-data="treadmillController()" class="p-10 max-w-4xl w-full">
       <h2
-        class="bg-gradient-to-r from-green-500 to-red-500 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center"
+        class="mt-10 bg-gradient-to-r from-green-500 to-red-500 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center"
       >
         Treadmill Controller 🏃
       </h2>
 
       <!-- LIVE DATA SECTION -->
-      <h1 class="mt-5 text-center">Live Data</h1>
-      <div class="p-2 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
-        <p class="bg-gray-600 text-bold rounded-md p-4">
-          Speed (km/h)<br /><span class="font-extrabold" x-text="data.speed"></span>
-        </p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">
-          Distance (m)<br /><span class="font-extrabold" x-text="data.distance"></span>
-        </p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">
-          Steps<br /><span class="font-extrabold" x-text="data.steps"></span>
-        </p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">
-          Time<br /><span class="font-extrabold" x-text="data.time"></span>
-        </p>
-        <p class="bg-gray-600 text-bold rounded-md p-4">
-          Calories<br /><span class="font-extrabold" x-text="data.calories"></span>
-        </p>
-      </div>
+      <section class="text-center">
+        <h2 class="mt-10 text-xl font-bold">Live Data</h2>
+        <div class="p-3 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
+          <p class="bg-gray-600 text-bold rounded-md p-4">
+            Speed (km/h)<br /><span class="font-extrabold" x-text="data.speed"></span>
+          </p>
+          <p class="bg-gray-600 text-bold rounded-md p-4">
+            Distance (m)<br /><span class="font-extrabold" x-text="data.distance"></span>
+          </p>
+          <p class="bg-gray-600 text-bold rounded-md p-4">
+            Steps<br /><span class="font-extrabold" x-text="data.steps"></span>
+          </p>
+          <p class="bg-gray-600 text-bold rounded-md p-4">
+            Time<br /><span class="font-extrabold" x-text="data.time"></span>
+          </p>
+          <p class="bg-gray-600 text-bold rounded-md p-4">
+            Calories<br /><span class="font-extrabold" x-text="data.calories"></span>
+          </p>
+        </div>
+      </section>
       <!-- LIVE DATA SECTION END-->
 
       <!-- Controls -->
       <section class="text-center mt-5">
-        <h1 class="text-xl font-bold">Control</h1>
+        <h2 class="text-xl font-bold">Control</h2>
         <div class="grid md:grid-cols-2 gap-4 p-4">
           <button
             @click="startTreadmill"
@@ -50,8 +52,8 @@
             Stop
           </button>
         </div>
-        <div>
-          <h2 class="text-xl font-bold mt-5">Speed</h2>
+        <h2 class="text-xl font-bold">Speed</h2>
+        <div class="text-center mt-5">
           <button
             @click="increaseSpeed"
             class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700"
@@ -65,7 +67,7 @@
       </section>
 
       <!-- Workout Selection -->
-      <section class="text-center mt-10">
+      <section class="text-center mt-10" x-show="Object.keys(selectedWorkoutData).length">
         <h2 class="text-xl font-bold">Select a Workout</h2>
         <select class="bg-gray-600 p-2 rounded" x-model="selectedWorkout" @change="updateWorkoutPlan">
           <template x-for="(workout, index) in workouts" :key="index">
@@ -103,7 +105,7 @@
           data: { speed: "-", distance: "-", steps: "-", calories: "-", time: "-" },
           workouts: [],
           selectedWorkout: 0,
-          selectedWorkoutData: [],
+          selectedWorkoutData: {},
           ws: null,
 
           init() {
@@ -129,7 +131,7 @@
           },
 
           updateWorkoutPlan() {
-            this.selectedWorkoutData = this.workouts[this.selectedWorkout]?.plan || [];
+            this.selectedWorkoutData = this.workouts[this.selectedWorkout]?.plan || {};
           },
 
           sendCommand(endpoint, body = {}) {
