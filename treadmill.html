@@ -15,19 +15,26 @@
         Treadmill Controller 🏃
       </h2>
 
-      <!-- Live Data Section -->
-      <section class="mt-5 text-center">
-        <h1 class="text-xl font-bold">Live Data</h1>
-        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
-          <template x-for="(value, key) in data" :key="key">
-            <p class="bg-gray-600 text-bold rounded-md p-4">
-              <span class="capitalize" x-text="key.replace('_', ' ')"></span>
-              <br />
-              <span class="font-extrabold" x-text="value"></span>
-            </p>
-          </template>
-        </div>
-      </section>
+      <!-- LIVE DATA SECTION -->
+      <h1 class="mt-5 text-center">Live Data</h1>
+      <div class="p-2 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Speed (km/h)<br /><span class="font-extrabold" x-text="data.speed"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Distance (m)<br /><span class="font-extrabold" x-text="data.distance"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Steps<br /><span class="font-extrabold" x-text="data.steps"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Time<br /><span class="font-extrabold" x-text="data.time"></span>
+        </p>
+        <p class="bg-gray-600 text-bold rounded-md p-4">
+          Calories<br /><span class="font-extrabold" x-text="data.calories"></span>
+        </p>
+      </div>
+      <!-- LIVE DATA SECTION END-->
 
       <!-- Controls -->
       <section class="text-center mt-5">
