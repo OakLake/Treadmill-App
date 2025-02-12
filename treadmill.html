@@ -1,143 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Treadmill Controller</title>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="font-mono flex justify-center bg-black text-white">
+  </head>
+  <body class="font-mono flex justify-center bg-black text-white">
     <div x-data="treadmillController()" class="p-10 max-w-4xl w-full">
-        <h2 class="bg-gradient-to-r from-green-500 to-red-500 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center">
-            Treadmill Controller 🏃
-        </h2>
+      <h2
+        class="bg-gradient-to-r from-green-500 to-red-500 bg-clip-text text-transparent text-2xl md:text-4xl font-extrabold text-center"
+      >
+        Treadmill Controller 🏃
+      </h2>
 
-        <!-- Live Data Section -->
-        <section class="mt-5 text-center">
-            <h1 class="text-xl font-bold">Live Data</h1>
-            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
-                <template x-for="(value, key) in data" :key="key">
-                    <p class="bg-gray-600 text-bold rounded-md p-4">
-                        <span class="capitalize" x-text="key.replace('_', ' ')"></span>
-                        <br>
-                        <span class="font-extrabold" x-text="value"></span>
-                    </p>
-                </template>
-            </div>
-        </section>
+      <!-- Live Data Section -->
+      <section class="mt-5 text-center">
+        <h1 class="text-xl font-bold">Live Data</h1>
+        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
+          <template x-for="(value, key) in data" :key="key">
+            <p class="bg-gray-600 text-bold rounded-md p-4">
+              <span class="capitalize" x-text="key.replace('_', ' ')"></span>
+              <br />
+              <span class="font-extrabold" x-text="value"></span>
+            </p>
+          </template>
+        </div>
+      </section>
 
-        <!-- Controls -->
-        <section class="text-center mt-5">
-            <h1 class="text-xl font-bold">Control</h1>
-            <div class="grid md:grid-cols-2 gap-4 p-4">
-                <button @click="startTreadmill" class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700">Start</button>
-                <button @click="stopTreadmill" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">Stop</button>
-            </div>
-            <div>
-                <h2 class="text-xl font-bold mt-5">Speed</h2>
-                <button @click="increaseSpeed" class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700">+</button>
-                <button @click="decreaseSpeed" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">-</button>
-            </div>
-        </section>
+      <!-- Controls -->
+      <section class="text-center mt-5">
+        <h1 class="text-xl font-bold">Control</h1>
+        <div class="grid md:grid-cols-2 gap-4 p-4">
+          <button
+            @click="startTreadmill"
+            class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700"
+          >
+            Start
+          </button>
+          <button @click="stopTreadmill" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">
+            Stop
+          </button>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mt-5">Speed</h2>
+          <button
+            @click="increaseSpeed"
+            class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700"
+          >
+            +
+          </button>
+          <button @click="decreaseSpeed" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">
+            -
+          </button>
+        </div>
+      </section>
 
-        <!-- Workout Selection -->
-        <section class="text-center mt-10">
-            <h2 class="text-xl font-bold">Select a Workout</h2>
-            <select class="bg-gray-600 p-2 rounded" x-model="selectedWorkout" @change="updateWorkoutPlan">
-                <template x-for="(workout, index) in workouts" :key="index">
-                    <option :value="index" x-text="workout.name"></option>
-                </template>
-            </select>
-            <div class="p-6">
-                <button @click="startWorkout" class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700">
-                    Start Workout
-                </button>
-            </div>
-            <h2 class="text-xl font-bold mt-5">Workout Plan</h2>
-            <table class="table-auto w-full border-collapse border border-gray-600 mt-4">
-              <thead>
-                  <tr class="bg-gray-700">
-                      <th class="border border-gray-600 px-4 py-2">Speed (m/s)</th>
-                      <th class="border border-gray-600 px-4 py-2">Duration (mins)</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <template x-for="(segment, index) in selectedWorkoutData" :key="index">
-                      <tr class="bg-gray-800">
-                          <td class="border border-gray-600 px-4 py-2" x-text="segment[0]"></td>
-                          <td class="border border-gray-600 px-4 py-2" x-text="segment[1] / 60"></td>
-                      </tr>
-                  </template>
-              </tbody>
-          </table>
-        </section>
+      <!-- Workout Selection -->
+      <section class="text-center mt-10">
+        <h2 class="text-xl font-bold">Select a Workout</h2>
+        <select class="bg-gray-600 p-2 rounded" x-model="selectedWorkout" @change="updateWorkoutPlan">
+          <template x-for="(workout, index) in workouts" :key="index">
+            <option :value="index" x-text="workout.name"></option>
+          </template>
+        </select>
+        <div class="p-6">
+          <button @click="startWorkout" class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700">
+            Start Workout
+          </button>
+        </div>
+        <h2 class="text-xl font-bold mt-5">Workout Plan</h2>
+        <table class="table-auto w-full border-collapse border border-gray-600 mt-4">
+          <thead>
+            <tr class="bg-gray-700">
+              <th class="border border-gray-600 px-4 py-2">Speed (m/s)</th>
+              <th class="border border-gray-600 px-4 py-2">Duration (mins)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="(segment, index) in selectedWorkoutData" :key="index">
+              <tr class="bg-gray-800">
+                <td class="border border-gray-600 px-4 py-2" x-text="segment[0]"></td>
+                <td class="border border-gray-600 px-4 py-2" x-text="segment[1] / 60"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </section>
     </div>
 
     <script>
-        function treadmillController() {
-            return {
-                data: { speed: "-", distance: "-", steps: "-", calories: "-", time: "-" },
-                workouts: [],
-                selectedWorkout: 0,
-                selectedWorkoutData: [],
-                ws: null,
+      function treadmillController() {
+        return {
+          data: { speed: "-", distance: "-", steps: "-", calories: "-", time: "-" },
+          workouts: [],
+          selectedWorkout: 0,
+          selectedWorkoutData: [],
+          ws: null,
 
-                init() {
-                    this.fetchWorkouts();
-                    this.setupWebSocket();
-                },
+          init() {
+            this.fetchWorkouts();
+            this.setupWebSocket();
+          },
 
-                setupWebSocket() {
-                    this.ws = new WebSocket("ws://localhost:8000/ws");
-                    this.ws.onmessage = (event) => {
-                        Object.assign(this.data, JSON.parse(event.data));
-                    };
-                },
-
-                fetchWorkouts() {
-                    fetch("http://localhost:8000/workouts")
-                        .then(response => response.json())
-                        .then(data => {
-                            this.workouts = data;
-                            this.updateWorkoutPlan();
-                        })
-                        .catch(error => console.error("Error fetching workouts:", error));
-                },
-
-                updateWorkoutPlan() {
-                    this.selectedWorkoutData = this.workouts[this.selectedWorkout]?.plan || [];
-                },
-
-                sendCommand(endpoint, body = {}) {
-                    fetch(`http://localhost:8000/${endpoint}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(body),
-                    });
-                },
-
-                startTreadmill() {
-                    this.sendCommand("start");
-                },
-
-                stopTreadmill() {
-                    this.sendCommand("stop");
-                },
-
-                startWorkout() {
-                    this.sendCommand("start-workout", { name: this.workouts[this.selectedWorkout]?.name });
-                },
-
-                increaseSpeed() {
-                  this.sendCommand(`speed?value=${parseFloat(this.data.speed) + 0.1}`);
-                },
-
-                decreaseSpeed() {
-                    this.sendCommand(`speed?value=${parseFloat(this.data.speed) - 0.1}`);
-                }
+          setupWebSocket() {
+            this.ws = new WebSocket("ws://localhost:8000/ws");
+            this.ws.onmessage = (event) => {
+              Object.assign(this.data, JSON.parse(event.data));
             };
-        }
+          },
+
+          fetchWorkouts() {
+            fetch("http://localhost:8000/workouts")
+              .then((response) => response.json())
+              .then((data) => {
+                this.workouts = data;
+                this.updateWorkoutPlan();
+              })
+              .catch((error) => console.error("Error fetching workouts:", error));
+          },
+
+          updateWorkoutPlan() {
+            this.selectedWorkoutData = this.workouts[this.selectedWorkout]?.plan || [];
+          },
+
+          sendCommand(endpoint, body = {}) {
+            fetch(`http://localhost:8000/${endpoint}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            });
+          },
+
+          startTreadmill() {
+            this.sendCommand("start");
+          },
+
+          stopTreadmill() {
+            this.sendCommand("stop");
+          },
+
+          startWorkout() {
+            this.sendCommand("start-workout", { name: this.workouts[this.selectedWorkout]?.name });
+          },
+
+          increaseSpeed() {
+            this.sendCommand(`speed?value=${parseFloat(this.data.speed) + 0.1}`);
+          },
+
+          decreaseSpeed() {
+            this.sendCommand(`speed?value=${parseFloat(this.data.speed) - 0.1}`);
+          },
+        };
+      }
     </script>
-</body>
+  </body>
 </html>
