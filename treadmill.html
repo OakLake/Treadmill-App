@@ -36,6 +36,21 @@
           </p>
         </div>
       </section>
+      <div
+        class="text-center"
+        x-show="stepsOpen"
+        x-transition.duration.1000ms
+        x-transition:leave.delay.120ms
+        x-transition.delay.80ms
+      >
+        <input
+          x-model="height"
+          type="text"
+          placeholder="Height cm"
+          class="bg-gray-50 text-gray-900 text-sm rounded-full p-2.5 text-center"
+        />
+        <button @click="sendHeight" class="py-2.5 mt-2 px-6 rounded-full font-extrabold bg-gray-400">></button>
+      </div>
       <!-- LIVE DATA SECTION END-->
 
       <!-- Controls -->
@@ -106,6 +121,8 @@
           workouts: [],
           selectedWorkout: 0,
           selectedWorkoutData: {},
+          height: null,
+          stepsOpen: false,
           ws: null,
 
           init() {
@@ -132,6 +149,11 @@
 
           updateWorkoutPlan() {
             this.selectedWorkoutData = this.workouts[this.selectedWorkout]?.plan || {};
+          },
+
+          sendHeight() {
+            this.stepsOpen = false;
+            this.sendCommand(`height?value=${this.height}`);
           },
 
           sendCommand(endpoint, body = {}) {
