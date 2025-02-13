@@ -133,7 +133,12 @@
           setupWebSocket() {
             this.ws = new WebSocket("ws://localhost:8000/ws");
             this.ws.onmessage = (event) => {
-              Object.assign(this.data, JSON.parse(event.data));
+              let newData = JSON.parse(event.data);
+              this.data.speed = newData.speed_ms;
+              this.data.time = newData.time;
+              this.data.distance = newData.distance_m;
+              this.data.steps = newData.steps;
+              this.data.calories = newData.calories;
             };
           },
 
