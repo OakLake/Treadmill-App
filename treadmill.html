@@ -18,21 +18,21 @@
       <!-- LIVE DATA SECTION -->
       <section class="text-center">
         <h2 class="mt-10 text-xl font-bold">Live Data</h2>
-        <div class="p-3 grid md:grid-cols-2 lg:grid-cols-5 gap-2 text-center">
-          <p class="bg-gray-600 text-bold rounded-md p-4">
-            Speed (km/h)<br /><span class="font-extrabold" x-text="data.speed"></span>
+        <div class="p-3 grid sm:grid-flow-dense gap-2 text-center">
+          <p class="bg-gray-500 text-sm rounded-lg p-4">
+            Speed (km/h)<br /><span class="font-extrabold text-2xl" x-text="data.speed"></span>
           </p>
-          <p class="bg-gray-600 text-bold rounded-md p-4">
-            Distance (m)<br /><span class="font-extrabold" x-text="data.distance"></span>
+          <p class="sm:col-span-2 bg-gray-500 text-sm rounded-lg p-4">
+            Distance (m)<br /><span class="font-extrabold text-2xl" x-text="data.distance"></span>
           </p>
-          <p class="bg-gray-600 text-bold rounded-md p-4">
-            Steps<br /><span class="font-extrabold" x-text="data.steps"></span>
+          <p class="bg-gray-500 text-sm rounded-lg p-4">
+            Time<br /><span class="font-extrabold text-2xl" x-text="data.time"></span>
           </p>
-          <p class="bg-gray-600 text-bold rounded-md p-4">
-            Time<br /><span class="font-extrabold" x-text="data.time"></span>
-          </p>
-          <p class="bg-gray-600 text-bold rounded-md p-4">
-            Calories<br /><span class="font-extrabold" x-text="data.calories"></span>
+          <button class="bg-gray-500 text-sm rounded-lg p-4" @click="stepsOpen = !stepsOpen">
+            Steps<br /><span class="font-extrabold text-2xl" x-text="data.steps"></span>
+          </button>
+          <p class="bg-gray-500 text-sm rounded-lg p-4">
+            Calories<br /><span class="font-extrabold text-2xl" x-text="data.calories"></span>
           </p>
         </div>
       </section>
