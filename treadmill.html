@@ -57,32 +57,27 @@
       <section class="text-center mt-5">
         <h2 class="text-xl font-bold">Control</h2>
         <div class="grid md:grid-cols-2 gap-4 p-4">
+          <button @click="stopTreadmill" class="py-3 px-8 m-1 rounded-lg font-extrabold bg-red-600 hover:bg-red-700">
+            Stop
+          </button>
           <button
             @click="startTreadmill"
-            class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700"
+            class="py-3 px-8 m-1 rounded-lg font-extrabold bg-green-600 hover:bg-green-700"
           >
             Start
-          </button>
-          <button @click="stopTreadmill" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">
-            Stop
           </button>
         </div>
         <h2 class="text-xl font-bold">Speed</h2>
         <div class="text-center mt-5">
-          <button
-            @click="increaseSpeed"
-            class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700"
-          >
-            +
-          </button>
-          <button @click="decreaseSpeed" class="py-3 px-8 m-1 rounded-md font-extrabold bg-red-600 hover:bg-red-700">
+          <button @click="decreaseSpeed" class="py-3 px-8 m-1 rounded-lg font-extrabold bg-red-600 hover:bg-red-700">
             -
           </button>
+          <button @click="increaseSpeed" class="py-3 px-8 m-1 rounded-lg font-extrabold bg-green-600">+</button>
         </div>
       </section>
 
       <!-- Workout Selection -->
-      <section class="text-center mt-10" x-show="Object.keys(selectedWorkoutData).length">
+      <section class="text-center mt-10" x-show="Object.keys(selectedWorkoutData).length" x-transition>
         <h2 class="text-xl font-bold">Select a Workout</h2>
         <select class="bg-gray-600 p-2 rounded" x-model="selectedWorkout" @change="updateWorkoutPlan">
           <template x-for="(workout, index) in workouts" :key="index">
@@ -90,7 +85,7 @@
           </template>
         </select>
         <div class="p-6">
-          <button @click="startWorkout" class="py-3 px-8 m-1 rounded-md font-extrabold bg-green-600 hover:bg-green-700">
+          <button @click="startWorkout" class="py-3 px-8 m-1 rounded-lg font-extrabold bg-green-600 hover:bg-green-700">
             Start Workout
           </button>
         </div>
