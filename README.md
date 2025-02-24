@@ -20,3 +20,7 @@ Features include:
 npm install
 npm run start
 ```
+
+### Showcase
+
+![image](./demo.png)
